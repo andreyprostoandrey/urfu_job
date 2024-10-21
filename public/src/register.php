@@ -8,6 +8,9 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 $confirm_password = $_POST['confirm_password'];
 
+add_old_value('username', $username);
+add_old_value('email', $email);
+
 // Валидация данных
 if(empty($username)) {
     add_validation_error('username', 'Неверное имя пользователя');
@@ -27,4 +30,22 @@ if($password != $confirm_password) {
 
 if(!empty($_SESSION['validation'])) {
     redirect('/register.php');
+}
+
+$pdo = getPDO();
+
+$query = "INSERT INTO users (email, username, password) VALUES (:email, :username, :password)";
+
+$params = [
+    'username' => $username,
+    'email' => $email,
+    'password' => password_hash($password, PASSWORD_DEFAULT)
+];
+
+$stmt = $pdo->prepare($query);
+
+try {
+    $stmt->execute($params);
+} catch (\Exception $e) {
+    die($e->getMessage());
 }
