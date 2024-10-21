@@ -1,3 +1,9 @@
+<?php
+
+require_once 'src/functions.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -12,18 +18,38 @@
     <title>Авторизация</title>
 </head>
 <body>
-    <h1>Авторизация</h1>
-    <form action="index.php" method="POST">
+    <h1>Вход</h1>
+    <form action="src/login.php" method="POST">
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
+        <label for="email">Email:
+            <input
+                type="email"
+                id="email"
+                name="email"
+                value="<?php echo old('email') ?>"
+                <?php validation_error_attr('email'); ?>
+                
+            >
+            <?php if(has_validation_error('email')): ?>
+                <small><?php echo validation_error_message('email'); ?></small>
+            <?php endif; ?>
+        </label>
 
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" required><br>
+        <label for="password">Пароль:
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                <?php validation_error_attr('password');?>
+            >
+            <?php if(has_validation_error('password')): ?>
+                <small><?php echo validation_error_message('password'); ?></small>
+            <?php endif; ?>
+        </label>
 
         <button type="submit">Продолжить</button>
     </form>
-
+    
     <p>У меня еще нет <a href="register.php">аккаунта</a></p>
 </body>
 </html>

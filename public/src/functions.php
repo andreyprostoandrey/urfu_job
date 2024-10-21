@@ -45,3 +45,14 @@ function getPDO(): PDO
         die("Connection error: {$e->getMessage()}");
     }
 }
+
+function find_user(string $email) {
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+    $stmt->execute(['email' => $email]);
+    return $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+}
+
+function clear_validation() {
+    $_SESSION['validation'] = [];
+}

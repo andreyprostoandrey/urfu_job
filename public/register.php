@@ -69,7 +69,7 @@ require_once 'src/functions.php';
 
         <button type="submit">Зарегистрироваться</button>
     </form>
-
+    <?php clear_validation(); ?>
     <p>У меня уже есть <a href="index.php">аккаунт</a></p>
 </body>
 </html>

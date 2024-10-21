@@ -7,11 +7,13 @@ $username = $_POST['username'];
 $email = $_POST['email'];
 $password = $_POST['password'];
 $confirm_password = $_POST['confirm_password'];
-
-add_old_value('username', $username);
-add_old_value('email', $email);
+$user = find_user($email);
 
 // Валидация данных
+if($user) {
+    add_validation_error('email', 'Такой пользователь уже зарегестрирован');
+}
+
 if(empty($username)) {
     add_validation_error('username', 'Неверное имя пользователя');
 }
@@ -21,7 +23,7 @@ if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 if(empty($password)) {
-    add_validation_error('password', 'Пароль пустой');
+    add_validation_error('password', 'Пустой пароль');
 }
 
 if($password != $confirm_password) {
@@ -29,6 +31,8 @@ if($password != $confirm_password) {
 }
 
 if(!empty($_SESSION['validation'])) {
+    add_old_value('username', $username);
+    add_old_value('email', $email);
     redirect('/register.php');
 }
 
@@ -49,3 +53,5 @@ try {
 } catch (\Exception $e) {
     die($e->getMessage());
 }
+
+redirect('/index.php');
