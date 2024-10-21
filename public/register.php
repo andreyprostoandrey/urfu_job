@@ -2,6 +2,7 @@
 
 require_once 'src/functions.php';
 
+check_guest();
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +28,7 @@ require_once 'src/functions.php';
                 name="username"
                 placeholder="Имя пользователя"
                 value="<?php echo old('username') ?>"
-                <?php validation_error_attr('username'); ?>
+                <?php echo validation_error_attr('username'); ?>
             >
             <?php if(has_validation_error('username')): ?>
                 <small><?php echo validation_error_message('username'); ?></small>
@@ -40,7 +41,7 @@ require_once 'src/functions.php';
                 id="email"
                 name="email"
                 value="<?php echo old('email') ?>"
-                <?php validation_error_attr('email'); ?>
+                <?php echo validation_error_attr('email'); ?>
             >
             <?php if(has_validation_error('email')): ?>
                 <small><?php echo validation_error_message('email'); ?></small>

@@ -14,13 +14,13 @@ function has_validation_error(string $field_name) {
 }
 
 function validation_error_attr(string $field_name) {
-    echo isset($_SESSION['validation'][$field_name]) ? 'aria-invalid="true"' : '';
+    return isset($_SESSION['validation'][$field_name]) ? 'aria-invalid="true"' : '';
 }
 
 function validation_error_message(string $field_name) {
     $message = $_SESSION['validation'][$field_name] ?? '';
     unset($_SESSION['validation'][$field_name]);
-    echo $message;
+    return $message;
 }
 
 function add_validation_error(string $field_name, string $message) {
@@ -55,4 +55,35 @@ function find_user(string $email) {
 
 function clear_validation() {
     $_SESSION['validation'] = [];
+}
+
+function current_user() {
+    $pdo = getPDO();
+
+    if(!isset($_SESSION['user'])) {
+        return false;
+    }
+
+    $user_id = $_SESSION['user']['id'];
+
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+    $stmt->execute(['id' => $user_id]);
+    return $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+}
+
+function logout() {
+    unset($_SESSION['user']['id']);
+    redirect('/index.php');
+}
+
+function check_auth() {
+    if(!isset($_SESSION['user']['id'])) {
+        redirect('/');
+    }
+}
+
+function check_guest() {
+    if(isset($_SESSION['user']['id'])) {
+        redirect('/home.php');
+    }
 }

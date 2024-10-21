@@ -8,6 +8,8 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 $confirm_password = $_POST['confirm_password'];
 $user = find_user($email);
+add_old_value('username', $username);
+add_old_value('email', $email);
 
 // Валидация данных
 if($user) {
@@ -31,8 +33,6 @@ if($password != $confirm_password) {
 }
 
 if(!empty($_SESSION['validation'])) {
-    add_old_value('username', $username);
-    add_old_value('email', $email);
     redirect('/register.php');
 }
 

@@ -2,6 +2,8 @@
 
 require_once 'src/functions.php';
 
+check_guest();
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +29,7 @@ require_once 'src/functions.php';
                 id="email"
                 name="email"
                 value="<?php echo old('email') ?>"
-                <?php validation_error_attr('email'); ?>
+                <?php echo validation_error_attr('email'); ?>
                 
             >
             <?php if(has_validation_error('email')): ?>
@@ -40,7 +42,7 @@ require_once 'src/functions.php';
                 type="password" 
                 id="password" 
                 name="password" 
-                <?php validation_error_attr('password');?>
+                <?php echo validation_error_attr('password');?>
             >
             <?php if(has_validation_error('password')): ?>
                 <small><?php echo validation_error_message('password'); ?></small>
