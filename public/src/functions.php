@@ -46,6 +46,13 @@ function getPDO(): PDO
     }
 }
 
+function get_message(string $key): string
+{
+    $message = $_SESSION['message'][$key] ?? '';
+    unset($_SESSION['message'][$key]);
+    return $message;
+}
+
 function find_user(string $email) {
     $pdo = getPDO();
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
@@ -86,4 +93,21 @@ function check_guest() {
     if(isset($_SESSION['user']['id'])) {
         redirect('/home.php');
     }
+}
+
+function upload_file(array $file, string $prefix) {
+    $upload_path = __DIR__ . '../../uploads';
+
+    if (!is_dir($upload_path)) {
+        mkdir($upload_path, 007, true);
+    }
+
+    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $file_name = $prefix . time() . ".$ext";
+
+    if (!move_uploaded_file($file['tmp_name'], "$upload_path/$file_name")) {
+        die('Ошибка при загрузке файла на сервер');
+    }
+
+    return "uploads/$file_name";
 }

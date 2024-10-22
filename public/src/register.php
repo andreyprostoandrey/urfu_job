@@ -51,7 +51,7 @@ $stmt = $pdo->prepare($query);
 try {
     $stmt->execute($params);
 } catch (\Exception $e) {
-    die($e->getMessage());
+    die($e->get_message());
 }
 
 redirect('/index.php');

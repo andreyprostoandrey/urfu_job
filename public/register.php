@@ -13,9 +13,7 @@ check_guest();
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <link 
-        rel="stylesheet" 
-        href="css/style.css">
+    <link rel="stylesheet" href="css/res.css">
     <title>Регистрация</title>
 </head>
 <body>
@@ -53,7 +51,7 @@ check_guest();
                 type="password" 
                 id="password" 
                 name="password" 
-                <?php validation_error_attr('password');?>
+                <?php echo validation_error_attr('password');?>
             >
             <?php if(has_validation_error('password')): ?>
                 <small><?php echo validation_error_message('password'); ?></small>
