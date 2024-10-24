@@ -1,7 +1,9 @@
 <?php
 
 require_once 'src/functions.php';
+// Авторизация пользователя
 
+// Проверка на авторизацию
 check_guest();
 
 ?>

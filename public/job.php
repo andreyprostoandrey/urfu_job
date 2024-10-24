@@ -1,12 +1,17 @@
 <?php
 
 require_once 'src/functions.php';
+// Разворот карточки вакансии
 
+// Находим пользователя
+check_auth();
 $user = current_user();
 
+// Получаем id вакансии из строки запроса методом GET
 $id = $_GET['id'] ?? null;
-$pdo = getPDO();
 
+// Подключаемся к базе и проверяем, есть ли такая вансия в ней
+$pdo = getPDO();
 if ($id) {
     $stmt = $pdo->prepare("SELECT * FROM jobs WHERE id = ?");
     $stmt->execute([$id]);
@@ -17,8 +22,8 @@ if ($id) {
 } else {
     die("Некорректный запрос.");
 }
-check_auth();
 
+// Создаем глобальную переменную с id
 $_SESSION['jobs']['id'] = $id;
 ?>
 

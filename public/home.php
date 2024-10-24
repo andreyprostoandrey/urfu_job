@@ -1,9 +1,10 @@
 <?php
 
 require_once 'src/functions.php';
+// Личный кабинет
 
+// Определяем пользователя
 check_auth();
-
 $user = current_user();
 ?>
 

@@ -2,18 +2,40 @@
 
 require_once 'functions.php';
 
-$title = $_POST['title'];
-$description = $_POST['description'];
-$image = $_FILES['image'];
-$shift = $_POST['shift'];
-$salary = $_POST['salary'];
-add_old_value('title', $title);
-add_old_value('description', $description);
-add_old_value('shift', $shift);
-add_old_value('salary', $salary);
+// Обработка данных
+$title = $_POST['title'] ?? null;
+$description = $_POST['description'] ?? null;
+$image = $_FILES['image'] ?? null;
+$shift = $_POST['shift'] ?? null;
+$salary = $_POST['salary'] ?? null;
+add_old_value('title', $title) ?? null;
+add_old_value('description', $description) ?? null;
+add_old_value('shift', $shift) ?? null;
+add_old_value('salary', $salary) ?? null;
 $user = current_user();
-$email = $user['email'];
+$email = $user['email'] ?? null;
 
+// Валидация данных
+check_string($title);
+check_string($description);
+check_string($shift);
+check_string($salary);
+
+if (mb_strlen($title) > 15 or mb_strlen($title) < 3) {
+    add_validation_error('title', 'Количество символов должно быть в диапозоне от 3 до 15');
+}
+
+if (mb_strlen($description) > 2055 or mb_strlen($description) < 25) {
+    add_validation_error('description', 'Количество символов должно быть в диапозоне от 25 до 2055');
+}
+
+if (mb_strlen($shift) > 25 or mb_strlen($shift) < 5) {
+    add_validation_error('shift', 'Количество символов должно быть в диапозоне от 5 до 25');
+}
+
+if (mb_strlen($salary) > 25 or mb_strlen($salary) < 5) {
+    add_validation_error('salary', 'Количество символов должно быть в диапозоне от 5 до 25');
+}
 
 if (empty($title)) {
     add_validation_error('title', 'Пустое название');
@@ -55,10 +77,9 @@ if (!empty($image)) {
     $image_path = upload_file($image, 'image_');
 }
 
+// Добавляем вакансию в базу данных
 $pdo = getPDO();
-
 $query = "INSERT INTO jobs (title, description, email, image, shift, salary) VALUES (:title, :description, :email, :image, :shift, :salary)";
-
 $params = [
     'title' => $title,
     'description' => $description,
@@ -67,9 +88,7 @@ $params = [
     'shift' => $shift,
     'salary' => $salary,
 ];
-
 $stmt = $pdo->prepare($query);
-
 try {
     $stmt->execute($params);
 } catch (\Exception $e) {

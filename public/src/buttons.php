@@ -2,6 +2,7 @@
 
 require_once 'functions.php';
 
+// Переключатель кнопок на сайте
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['action'])) {
         switch ($_POST['action']) {

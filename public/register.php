@@ -1,7 +1,9 @@
 <?php
 
 require_once 'src/functions.php';
+// Регистрация на сайте
 
+// Проверяем авторизацию
 check_guest();
 ?>
 
@@ -25,6 +27,7 @@ check_guest();
                 id="username" 
                 name="username"
                 placeholder="ФИО"
+                maxlength="100"
                 value="<?php echo old('username') ?>"
                 <?php echo validation_error_attr('username'); ?>
             >
@@ -39,6 +42,7 @@ check_guest();
                 id="group_id" 
                 name="group_id"
                 placeholder="Номер группы"
+                maxlength="100"
                 value="<?php echo old('group_id') ?>"
                 <?php echo validation_error_attr('group_id'); ?>
             >
@@ -52,6 +56,7 @@ check_guest();
                 type="email"
                 id="email"
                 name="email"
+                maxlength="100"
                 value="<?php echo old('email') ?>"
                 <?php echo validation_error_attr('email'); ?>
             >
@@ -65,6 +70,7 @@ check_guest();
                 type="password" 
                 id="password" 
                 name="password" 
+                maxlength="255"
                 <?php echo validation_error_attr('password');?>
             >
             <?php if(has_validation_error('password')): ?>
@@ -77,6 +83,7 @@ check_guest();
                 type="password" 
                 id="confirm_password" 
                 name="confirm_password" 
+                maxlength="255"
             >
         </label>
 

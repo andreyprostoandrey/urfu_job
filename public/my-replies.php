@@ -1,20 +1,25 @@
 <?php
 
 require_once 'src/functions.php';
+// Просмотр пользовательских заявок
 
+// Обрабатываем текущего пользователя
 $user = current_user();
 $email = $user['email'];
 
+// Подключаемся к таблице заявок по почте пользователя
 $pdo = getPDO();
 $stmt = $pdo->prepare("SELECT * FROM replies WHERE email = :email");
 $stmt->execute(['email' => $email]);
 $replies = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
+// Собираем в массив id вакансий, по которым пользователь откликнулся
 $job_ids = [];
 foreach($replies as $reply) {
     $res = array_push($job_ids, $reply['job_id']);
 }
 
+// Обращаемся к базе данных и собираем информацию о вакансиях
 $jobs = [];
 foreach($job_ids as $job_id) {
     $stmt = $pdo->prepare("SELECT * FROM jobs WHERE id = :id");
@@ -23,21 +28,9 @@ foreach($job_ids as $job_id) {
     if ($job != false){
         $res = array_push($jobs, $job);
     }
-    
 }
 
-$jobs_per_page = 4; // Количество вакансий на странице
-$total_jobs = count($jobs); // Общее количество вакансий
-$total_pages = ceil($total_jobs / $jobs_per_page); // Общее количество страниц
-
-// Получаем текущую страницу
-$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$current_page = max(1, min($current_page, $total_pages)); // Ограничиваем номер страницы
-
-// Вычисляем индекс начальной и конечной вакансий для текущей страницы
-$start_index = ($current_page - 1) * $jobs_per_page;
-$current_jobs = array_slice($jobs, $start_index, $jobs_per_page); // Вакансии для текущей страниц
-
+require_once "src/page-transfer.php"
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -51,7 +44,7 @@ $current_jobs = array_slice($jobs, $start_index, $jobs_per_page); // Вакан�
     <title>Мои заявки</title>
 </head>
 <body>
-<h1>Список заявок</h1>
+<h1>Мои заявки</h1>
     <div>
         <?php foreach($replies as $reply):
                     foreach($current_jobs as $job):
@@ -73,13 +66,7 @@ $current_jobs = array_slice($jobs, $start_index, $jobs_per_page); // Вакан�
                     <?php endforeach; ?>
         <?php endforeach; ?>
     </div>
-    <div class="pagination">
-    <?php for ($page = 1; $page <= $total_pages; $page++): ?>
-        <a href="?page=<?php echo $page; ?>" class="<?php echo ($page === $current_page) ? 'active' : ''; ?>">
-            <?php echo $page; ?>
-        </a>
-    <?php endfor; ?>
-    </div>
+    <?php require 'src/page-transfer2.php'; ?>
     <form class="card" action="src/buttons.php" method="post">
         <label for="action">
             <button class="container" type="submit" name="action" value="home">В личный кабинет</button>

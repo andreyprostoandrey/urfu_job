@@ -1,16 +1,18 @@
 <?php
 
 require_once 'src/functions.php';
+// Обрабатка вакансии админом
 
+// Проверка пользователя
+check_auth();
 $user = current_user();
+is_admin($user);
 
-if(!$user['id'] == 1) {
-    redirect('/jobs.php');
-}
-
+// Фиксируем id вакнсии методом GET
 $id = $_GET['id'] ?? null;
-$pdo = getPDO();
 
+// Выводим вакансию из базы данных
+$pdo = getPDO();
 if ($id) {
     $stmt = $pdo->prepare("SELECT * FROM jobs WHERE id = ?");
     $stmt->execute([$id]);
@@ -21,8 +23,8 @@ if ($id) {
 } else {
     die("Некорректный запрос.");
 }
-check_auth();
 
+// Сохраняем id в глобальную переменную в текущей сессии
 $_SESSION['jobs']['id'] = $id;
 ?>
 

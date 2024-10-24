@@ -2,19 +2,12 @@
 
 require_once 'functions.php';
 
+// Сохраняем id заявки
 $id = $_GET['id'] ?? null;
 
+// Удаляем заявку по id
 $pdo = getPDO();
-
-if ($id) {
-    $stmt = $pdo->prepare("SELECT * FROM jobs WHERE id = ?");
-    $stmt->execute([$id]);
-    $job = $stmt->fetch();
-    if (!$job) {
-        die("Вакансия не найдена.");
-    }
-} else {
-    die("Некорректный запрос.");
-}
+$stmt = $pdo->prepare("DELETE FROM replies WHERE id = :id");
+$stmt->execute(['id' => $id]);
 
 redirect('/my-replies.php');

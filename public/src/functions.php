@@ -1,42 +1,59 @@
 <?php
 
+// Запуск сессий
 session_start();
 
 require_once __DIR__ . '/pdo.php';
 
+// Перенаправляет на другую страницу
 function redirect(string $path) {
     header("Location: $path");
     die();
 }
 
+// Проверяет, есть ли ошибка валидации
 function has_validation_error(string $field_name) {
     return isset($_SESSION['validation'][$field_name]);
 }
 
+// Отправлет атрибут aria-invalid, если есть ошибка валидации
 function validation_error_attr(string $field_name) {
     return isset($_SESSION['validation'][$field_name]) ? 'aria-invalid="true"' : '';
 }
 
+// Приcваивает ошибку в переменную
 function validation_error_message(string $field_name) {
     $message = $_SESSION['validation'][$field_name] ?? '';
     unset($_SESSION['validation'][$field_name]);
     return $message;
 }
 
+// Возвращает сообщение об ошибке
 function add_validation_error(string $field_name, string $message) {
     $_SESSION['validation'][$field_name] = $message;
 }
 
+// Сохраняет старое значение перменной
 function add_old_value(string $key, $value) {
     $_SESSION['old'][$key] = $value;
 }
 
+// Возвращает старое значение перменной
 function old(string $key) {
     $value = $_SESSION['old'][$key] ?? '';
     unset($_SESSION['old'][$key]);
     return $value;
 }
 
+// Проверяем тип данных на строку
+function check_string($string) {
+    if (!is_string($string)) {
+        add_validation_error("$string", "Не является строкой");
+    }
+}
+
+
+// Подключение к базе данных
 function getPDO(): PDO
 {
     try {
@@ -46,6 +63,7 @@ function getPDO(): PDO
     }
 }
 
+// Поиск пользователя в базе данных по почте
 function find_user(string $email) {
     $pdo = getPDO();
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
@@ -53,6 +71,7 @@ function find_user(string $email) {
     return $user = $stmt->fetch(\PDO::FETCH_ASSOC);
 }
 
+// Поиск вакансий в базе данных по названию
 function find_jobs(string $title) {
     $pdo = getPDO();
     $stmt = $pdo->prepare("SELECT * FROM jobs WHERE title = :title");
@@ -60,6 +79,7 @@ function find_jobs(string $title) {
     return $jobs = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
 
+// Возвращает одобренные вакансии по названию
 function current_jobs() {
     try {
         $pdo = getPDO();
@@ -74,10 +94,12 @@ function current_jobs() {
     }
 }
 
+// Очищает валидацию при необходимости
 function clear_validation() {
     $_SESSION['validation'] = [];
 }
 
+// Возвращает текущего пользователя
 function current_user() {
     try {
         $pdo = getPDO();
@@ -96,23 +118,33 @@ function current_user() {
     }
 }
 
+// Выход
 function logout() {
     unset($_SESSION['user']['id']);
     redirect('/index.php');
 }
 
+// Проверка авторизации
 function check_auth() {
     if(!isset($_SESSION['user']['id'])) {
         redirect('/');
     }
 }
-
+// Проверка авторизации, когда пользователь авторизирован
 function check_guest() {
     if(isset($_SESSION['user']['id'])) {
         redirect('/home.php');
     }
 }
 
+// Проверка прав пользователя
+function is_admin(array $user) {
+    if(!$user['id'] == 1) {
+        redirect('/home.php');
+    }
+}
+
+// Загрузка файла на сервер
 function upload_file(array $file, string $prefix) {
     $upload_path = __DIR__ . '../../uploads';
 

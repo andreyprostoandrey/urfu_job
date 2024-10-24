@@ -1,7 +1,10 @@
 <?php
 
 require_once 'src/functions.php';
+// Создание вакансии
 
+// Проверка пользователя
+check_auth();
 $user = current_user();
 ?>
 
@@ -42,8 +45,8 @@ $user = current_user();
                     <?php endif; ?>"
                 name="description"
                 id="description" 
-                placeholder="Максимум 555 символов"
-                maxlength="555"><?php echo old('description') ?></textarea>
+                placeholder="Максимум 2055 символов"
+                maxlength="2055"><?php echo old('description') ?></textarea>
             <?php if(has_validation_error('description')): ?>
                 <small style="color: #ce7e7b;"><?php echo validation_error_message('description'); ?></small>
             <?php endif; ?>

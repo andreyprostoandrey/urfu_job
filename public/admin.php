@@ -1,13 +1,12 @@
 <?php
 
 require_once 'src/functions.php';
+// Админ панель
 
+// Определяем пользователя
 check_auth();
-
 $user = current_user();
-if(!$user['id'] == 1) {
-    redirect('/home.php');
-}
+is_admin($user);
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +18,7 @@ if(!$user['id'] == 1) {
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <title>Личный кабинет</title>
+    <title>Админ панель</title>
 </head>
 <body>
     <h1>Добро пожаловать, <?php echo $user['username'] ?>!</h1>
@@ -33,7 +32,6 @@ if(!$user['id'] == 1) {
         <label for="action">
             <button class="container" type="submit" name="action" value="home">Личный кабинет</button>
         </label>
-        <?php endif; ?>
     </form>
 </body>
 </html>
