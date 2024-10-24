@@ -46,18 +46,31 @@ function getPDO(): PDO
     }
 }
 
-function get_message(string $key): string
-{
-    $message = $_SESSION['message'][$key] ?? '';
-    unset($_SESSION['message'][$key]);
-    return $message;
-}
-
 function find_user(string $email) {
     $pdo = getPDO();
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
     $stmt->execute(['email' => $email]);
     return $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+}
+
+function find_jobs(string $title) {
+    $pdo = getPDO();
+    $stmt = $pdo->prepare("SELECT * FROM jobs WHERE title = :title");
+    $stmt->execute(['title' => $title]);
+    return $jobs = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+function current_jobs() {
+    $pdo = getPDO();
+
+    if(!isset($_SESSION['jobs']['title'])) {
+        return false;
+    }
+
+    $title = $_SESSION['jobs']['title'];
+    $stmt = $pdo->prepare("SELECT * FROM jobs WHERE title = :title");
+    $stmt->execute(['title' => $title]);
+    return $jobs = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
 
 function clear_validation() {
@@ -106,7 +119,7 @@ function upload_file(array $file, string $prefix) {
     $file_name = $prefix . time() . ".$ext";
 
     if (!move_uploaded_file($file['tmp_name'], "$upload_path/$file_name")) {
-        die('Ошибка при загрузке файла на сервер');
+        redirect('/job-create.php');
     }
 
     return "uploads/$file_name";

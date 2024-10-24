@@ -2,12 +2,9 @@
 
 require_once 'src/functions.php';
 
-check_auth();
 $user = current_user();
-
-$pdo = getPDO();
-$stmt = $pdo->query("SELECT * FROM jobs");
-$jobs = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+$jobs = current_jobs();
+check_auth();
 
 $jobs_per_page = 4; // Количество вакансий на странице
 $total_jobs = count($jobs); // Общее количество вакансий
@@ -31,18 +28,33 @@ $current_jobs = array_slice($jobs, $start_index, $jobs_per_page); // Вакан�
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <title>Список вакансий</title>
+    <title>Поиск</title>
 </head>
 <body>
-    <h1>Вакансии</h1>
+<h1>Поиск вакансии</h1>
+<form action="src/job-search.php" method="POST">
+        <label for="title_search">Введите название вакансии:
+            <input
+                type="text"
+                id="title_search"
+                name="title_search"
+                placeholder="Максимум 15 символов"
+                maxlength="15"
+                <?php echo validation_error_attr('title_search'); ?>
+            >
+            <?php if(has_validation_error('title_search')): ?>
+                <small><?php echo validation_error_message('title_search'); ?></small>
+            <?php endif; ?>
+        </label>
+        <button type="submit">Продолжить</button>
+    </form>
     <div>
-        <?php foreach ($current_jobs as $job): ?>
+        <?php foreach ($jobs as $job): ?>
             <div class="job-card">
-                <?php $date = explode(" ", $job['created_at']);
-                $short_desc = substr($job['description'], 0, 52) . "...";?>
+                <?php $date = explode(" ", $job['created_at']); ?>
                 <img src="<?php echo $job['image']?>">
                 <p class="title"><b><?php echo $job['title']; ?></b></p>
-                <p class="text"><b>Описание:</b> <?php echo $short_desc; ?></p>
+                <p class="text"><b>Описание:</b> <?php echo $job['description']; ?>...</p>
                 <p class="text"><b>Дата создания:</b> <?php echo $date[0]; ?></p>
                 <p class="text"><b>Режим работы:</b><br><?php echo $job['shift']; ?></p>
                 <p class="text"><b>Зарплата:</b><br><?php echo $job['salary']; ?></p>
@@ -59,16 +71,6 @@ $current_jobs = array_slice($jobs, $start_index, $jobs_per_page); // Вакан�
         </a>
     <?php endfor; ?>
     </div>
-    <form class="card" action="src/buttons.php" method="post">
-        <label for="jobs">
-            <button class="container" type="submit" name="action" value="job-search">Поиск вакансий</button>
-        </label>
-        <label for="jobs">
-            <button class="container" type="submit" name="action" value="job-create">Создать вакансию</button>
-        </label>
-        <label for="jobs">
-            <button class="container" type="submit" name="action" value="home">В личный кабинет</button>
-        </label>
-    </form>
+    <p><a href="jobs.php">Назад к списку вакансий</a></p>
 </body>
 </html>

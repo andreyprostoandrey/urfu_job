@@ -1,0 +1,30 @@
+
+.text {
+    color: #fff; /* Цвет текста */
+    text-align: left;
+    font-size: 20px;
+    
+}
+
+.title {
+    color: #fff; /* Цвет заголовка */
+    text-align: center;
+    font-size: 30px;
+}
+
+div {
+    display: grid;
+    justify-content: center;
+}
+
+form {
+    margin-top: 10px;
+    min-width: 500px;
+    max-width: 700px;
+}
+
+
+.flex {
+    display: flex;
+    justify-content: space-around;
+}

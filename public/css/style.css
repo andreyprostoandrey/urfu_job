@@ -1,0 +1,98 @@
+
+body {
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.card {
+    border-radius: 0.25rem;
+    padding: 40px;
+}
+
+form {
+    min-width: 500px;
+    max-width: 700px;
+}
+
+div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.job-card {
+    background-color: #1c212c;
+    display: grid;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+    padding: 20px;
+    width: 300px; /* Ширина карточки */
+    transition: transform 0.2s; /* Анимация при наведении */
+}
+
+.job-card:hover {
+    transform: translateY(-5px); /* Подъем карточки при наведении */
+}
+
+.title {
+    color: #fff; /* Цвет заголовка */
+    text-align: center;
+    font-size: 30px;
+}
+
+.job-card img {
+    width: 300px;
+    height: 300px; /* Адаптивное изображение */
+    border-radius: 8px; /* Скругление углов изображения */
+}
+
+.text {
+    color: #fff; /* Цвет текста */
+    text-align: left;
+    font-size: 20px;
+    
+}
+
+.job-card a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #0172ad; /* Цвет кнопки */
+    color: #fff; /* Цвет текста кнопки */
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.job-card a:hover {
+    background-color: #01aaff; /* Цвет кнопки при наведении */
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 10px 15px;
+    background-color: #0172ad;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #01aaff;
+}
+
+.pagination a.active {
+    background-color: #0172ad; /* Цвет активной страницы */
+    pointer-events: none; /* Отключаем клики для активной страницы */
+}

@@ -13,20 +13,20 @@ $user = current_user();
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <link rel="stylesheet" href="css/res.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Создать вакансию</title>
 </head>
 <body>
 <h1>Создать вакансию</h1>
     <form class="card" action="src/job-create.php" method="POST" enctype="multipart/form-data">
 
-        <label for="title">Название:
+        <label for="title">Должность:
             <input
                 type="text"
                 id="title"
                 name="title"
-                placeholder="Название вакансии"
-                maxlength="155"
+                placeholder="Максимум 15 символов"
+                maxlength="15"
                 value="<?php echo old('title') ?>"
                 <?php echo validation_error_attr('title'); ?>
             >
@@ -42,10 +42,38 @@ $user = current_user();
                     <?php endif; ?>"
                 name="description"
                 id="description" 
-                placeholder="Описание вакансии"
+                placeholder="Максимум 555 символов"
                 maxlength="555"><?php echo old('description') ?></textarea>
             <?php if(has_validation_error('description')): ?>
                 <small style="color: #ce7e7b;"><?php echo validation_error_message('description'); ?></small>
+            <?php endif; ?>
+        </label>
+
+        <label for="shift">Режим работы:</label>
+            <input 
+                type="text" 
+                id="shift" 
+                name="shift"
+                maxlength="25"
+                placeholder="Максимум 25 символов"
+                value="<?php echo old('shift') ?>"
+                <?php echo validation_error_attr('shift'); ?>>
+            <?php if(has_validation_error('shift')): ?>
+                <small style="color: #ce7e7b;"><?php echo validation_error_message('shift'); ?></small>
+            <?php endif; ?>
+        </label>
+
+        <label for="salary">Зарплата:</label>
+            <input 
+                type="text" 
+                id="salary" 
+                name="salary"
+                maxlength="25"
+                placeholder="Максимум 25 символов"
+                value="<?php echo old('salary') ?>"
+                <?php echo validation_error_attr('salary'); ?>>
+            <?php if(has_validation_error('salary')): ?>
+                <small style="color: #ce7e7b;"><?php echo validation_error_message('salary'); ?></small>
             <?php endif; ?>
         </label>
 
@@ -63,6 +91,6 @@ $user = current_user();
 
         <button type="submit">Продолжить</button>
     </form>
-    
+    <p><a href="jobs.php">Назад к списку вакансий</a></p>
 </body>
 </html>

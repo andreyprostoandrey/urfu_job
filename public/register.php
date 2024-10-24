@@ -13,7 +13,7 @@ check_guest();
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <link rel="stylesheet" href="css/res.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Регистрация</title>
 </head>
 <body>
@@ -24,12 +24,26 @@ check_guest();
                 type="text" 
                 id="username" 
                 name="username"
-                placeholder="Имя пользователя"
+                placeholder="ФИО"
                 value="<?php echo old('username') ?>"
                 <?php echo validation_error_attr('username'); ?>
             >
             <?php if(has_validation_error('username')): ?>
                 <small><?php echo validation_error_message('username'); ?></small>
+            <?php endif; ?>
+        </label>
+
+        <label for="group_id">Группа:
+            <input 
+                type="text" 
+                id="group_id" 
+                name="group_id"
+                placeholder="Номер группы"
+                value="<?php echo old('group_id') ?>"
+                <?php echo validation_error_attr('group_id'); ?>
+            >
+            <?php if(has_validation_error('group_id')): ?>
+                <small><?php echo validation_error_message('group_id'); ?></small>
             <?php endif; ?>
         </label>
 
