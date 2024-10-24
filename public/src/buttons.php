@@ -23,6 +23,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             case 'logout':
                 logout();
                 break;
+            case 'admin':
+                redirect('/admin.php');
+                break;
+            case 'jobs-admin':
+                redirect('/jobs-admin.php');
+                break;
+            case 'replies-admin':
+                redirect('/replies-admin.php');
+                break;
             default:
             redirect('/');
                 break;

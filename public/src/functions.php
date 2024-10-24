@@ -61,16 +61,17 @@ function find_jobs(string $title) {
 }
 
 function current_jobs() {
-    $pdo = getPDO();
-
-    if(!isset($_SESSION['jobs']['title'])) {
-        return false;
+    try {
+        $pdo = getPDO();
+        $status = 'agree';
+        $title = '1';
+        $title = $_SESSION['jobs']['title'];
+        $stmt = $pdo->prepare("SELECT * FROM jobs WHERE title = :title AND status = :status");
+        $stmt->execute(['title' => $title, 'status' => $status]);
+        return $jobs = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo "Ошибка: не получилось определить вакансии" . $e->getMessage();
     }
-
-    $title = $_SESSION['jobs']['title'];
-    $stmt = $pdo->prepare("SELECT * FROM jobs WHERE title = :title");
-    $stmt->execute(['title' => $title]);
-    return $jobs = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
 
 function clear_validation() {
@@ -78,17 +79,21 @@ function clear_validation() {
 }
 
 function current_user() {
-    $pdo = getPDO();
+    try {
+        $pdo = getPDO();
 
-    if(!isset($_SESSION['user'])) {
-        return false;
+        if(!isset($_SESSION['user'])) {
+            return false;
+        }
+
+        $user_id = $_SESSION['user']['id'];
+
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(['id' => $user_id]);
+        return $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo "Ошибка: не получилось определить пользователя" . $e->getMessage();
     }
-
-    $user_id = $_SESSION['user']['id'];
-
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :id");
-    $stmt->execute(['id' => $user_id]);
-    return $user = $stmt->fetch(\PDO::FETCH_ASSOC);
 }
 
 function logout() {

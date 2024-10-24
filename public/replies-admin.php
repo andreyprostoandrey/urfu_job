@@ -2,12 +2,15 @@
 
 require_once 'src/functions.php';
 
+check_auth();
 $user = current_user();
-$email = $user['email'];
+
+if(!$user['id'] == 1) {
+    redirect('/my-replies.php');
+}
 
 $pdo = getPDO();
-$stmt = $pdo->prepare("SELECT * FROM replies WHERE email = :email");
-$stmt->execute(['email' => $email]);
+$stmt = $pdo->query("SELECT * FROM replies WHERE status IS NULL");
 $replies = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
 $job_ids = [];
@@ -37,8 +40,8 @@ $current_page = max(1, min($current_page, $total_pages)); // Ограничив�
 // Вычисляем индекс начальной и конечной вакансий для текущей страницы
 $start_index = ($current_page - 1) * $jobs_per_page;
 $current_jobs = array_slice($jobs, $start_index, $jobs_per_page); // Вакансии для текущей страниц
-
 ?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -48,12 +51,12 @@ $current_jobs = array_slice($jobs, $start_index, $jobs_per_page); // Вакан�
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <title>Мои заявки</title>
+    <title>Список вакансий</title>
 </head>
 <body>
-<h1>Список заявок</h1>
+    <h1>Вакансии</h1>
     <div>
-        <?php foreach($replies as $reply):
+    <?php foreach($replies as $reply):
                     foreach($current_jobs as $job):
                         if($reply['job_id'] == $job['id']):?>
                             <div class="job-card">
@@ -65,9 +68,9 @@ $current_jobs = array_slice($jobs, $start_index, $jobs_per_page); // Вакан�
                                 <p class="text"><b>Дата создания:</b> <?php echo $date[0]; ?></p>
                                 <p class="text"><b>Заказчик:</b><br><?php echo $job['email']; ?></p>
                                 <p class="text"><b>Время подачи заявки:</b> <?php echo $reply['created_at']; ?></p>
-                                <p class="text"><b>Статус:</b> <?php if($reply['status'] != null): echo $reply['status']; ?><?php endif; ?>
-                                <?php if($reply['status'] == null): echo "Ожидает" ?></p><?php endif; ?>
-                                <a style="text-align: center;" href="src/delete-reply.php?id=<?php echo $reply['id']; ?>">Отменить заявку</a>
+                                <p class="text"><b>Статус:</b> <?php echo $reply['status']; ?></p>
+                                <a style="" href="src/agree-reply.php?id=<?php echo $reply['id']; ?>">Принять</a>
+                                <a style="" href="src/disagree-reply.php?id=<?php echo $reply['id']; ?>">Отклонить</a>
                             </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
@@ -81,15 +84,9 @@ $current_jobs = array_slice($jobs, $start_index, $jobs_per_page); // Вакан�
     <?php endfor; ?>
     </div>
     <form class="card" action="src/buttons.php" method="post">
-        <label for="action">
+        <label for="jobs">
             <button class="container" type="submit" name="action" value="home">В личный кабинет</button>
         </label>
-        <label for="action">
-            <button class="container" type="submit" name="action" value="jobs">Смотреть вакансии</button>
-        </label>
-        <label for="action">
-            <button class="container" type="submit" name="action" value="job-search">Поиск вакансий</button>
-        </label>
     </form>
-    </body>
+</body>
 </html>

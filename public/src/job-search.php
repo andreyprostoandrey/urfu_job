@@ -12,7 +12,9 @@ if (empty($title_search)) {
     add_validation_error('title_search', 'Пустое название');
 }
 
-$_SESSION['jobs']['title'] = $title_search;
+if ($title_search != false){
+    $_SESSION['jobs']['title'] = $title_search;
+}
 
 redirect('/job-search.php');
 ?>

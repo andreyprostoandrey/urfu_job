@@ -51,10 +51,11 @@ $current_jobs = array_slice($jobs, $start_index, $jobs_per_page); // Вакан�
     <div>
         <?php foreach ($jobs as $job): ?>
             <div class="job-card">
-                <?php $date = explode(" ", $job['created_at']); ?>
+                <?php $date = explode(" ", $job['created_at']);
+                $short_desc = substr($job['description'], 0, 52) . "..."; ?>
                 <img src="<?php echo $job['image']?>">
                 <p class="title"><b><?php echo $job['title']; ?></b></p>
-                <p class="text"><b>Описание:</b> <?php echo $job['description']; ?>...</p>
+                <p class="text"><b>Описание:</b> <?php echo $short_desc; ?></p>
                 <p class="text"><b>Дата создания:</b> <?php echo $date[0]; ?></p>
                 <p class="text"><b>Режим работы:</b><br><?php echo $job['shift']; ?></p>
                 <p class="text"><b>Зарплата:</b><br><?php echo $job['salary']; ?></p>

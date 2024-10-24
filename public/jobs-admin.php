@@ -5,8 +5,12 @@ require_once 'src/functions.php';
 check_auth();
 $user = current_user();
 
+if(!$user['id'] == 1) {
+    redirect('/jobs.php');
+}
+
 $pdo = getPDO();
-$stmt = $pdo->query("SELECT * FROM jobs WHERE status = 'agree'");
+$stmt = $pdo->query("SELECT * FROM jobs WHERE status IS NULL");
 $jobs = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
 $jobs_per_page = 4; // Количество вакансий на странице
@@ -47,7 +51,7 @@ $current_jobs = array_slice($jobs, $start_index, $jobs_per_page); // Вакан�
                 <p class="text"><b>Режим работы:</b><br><?php echo $job['shift']; ?></p>
                 <p class="text"><b>Зарплата:</b><br><?php echo $job['salary']; ?></p>
                 <p class="text"><b>Заказчик:</b><br><?php echo $job['email']; ?></p>
-                <a href="job.php?id=<?php echo $job['id']; ?>">Подробнее</a>
+                <a href="job-admin.php?id=<?php echo $job['id']; ?>">Подробнее</a>
              </div>
             
         <?php endforeach; ?>
@@ -60,12 +64,6 @@ $current_jobs = array_slice($jobs, $start_index, $jobs_per_page); // Вакан�
     <?php endfor; ?>
     </div>
     <form class="card" action="src/buttons.php" method="post">
-        <label for="jobs">
-            <button class="container" type="submit" name="action" value="job-search">Поиск вакансий</button>
-        </label>
-        <label for="jobs">
-            <button class="container" type="submit" name="action" value="job-create">Создать вакансию</button>
-        </label>
         <label for="jobs">
             <button class="container" type="submit" name="action" value="home">В личный кабинет</button>
         </label>

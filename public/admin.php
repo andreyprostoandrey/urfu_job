@@ -5,6 +5,9 @@ require_once 'src/functions.php';
 check_auth();
 
 $user = current_user();
+if(!$user['id'] == 1) {
+    redirect('/home.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,21 +25,14 @@ $user = current_user();
     <h1>Добро пожаловать, <?php echo $user['username'] ?>!</h1>
     <form class="card" action="src/buttons.php" method="post">
         <label for="action">
-            <button class="container" type="submit" name="action" value="my-replies">Мои заявки</button>
+            <button class="container" type="submit" name="action" value="jobs-admin">Обработать вакансии</button>
         </label>  
         <label for="action">
-            <button class="container" type="submit" name="action" value="jobs">Смотреть вакансии</button>
+            <button class="container" type="submit" name="action" value="replies-admin">Обработать заявки</button>
         </label>  
         <label for="action">
-            <button class="container" type="submit" name="action" value="job-create">Создать вакансию</button>
+            <button class="container" type="submit" name="action" value="home">Личный кабинет</button>
         </label>
-        <label for="action">
-            <button class="container" type="submit" name="action" value="logout">Выйти</button>
-        </label>
-        <?php if ($user['id'] == 1): ?>
-            <label for="action">
-                <button class="container" type="submit" name="action" value="admin">Админ панель</button>
-            </label>
         <?php endif; ?>
     </form>
 </body>
