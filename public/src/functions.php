@@ -85,7 +85,7 @@ function current_jobs() {
         $pdo = getPDO();
         $status = 'agree';
         $title = '1';
-        $title = $_SESSION['jobs']['title'];
+        $title = $_SESSION['jobs']['title'] ?? null;
         $stmt = $pdo->prepare("SELECT * FROM jobs WHERE title = :title AND status = :status");
         $stmt->execute(['title' => $title, 'status' => $status]);
         return $jobs = $stmt->fetchAll(\PDO::FETCH_ASSOC);

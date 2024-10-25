@@ -60,7 +60,9 @@ require_once "src/page-transfer.php"
                                 <p class="text"><b>Время подачи заявки:</b> <?php echo $reply['created_at']; ?></p>
                                 <p class="text"><b>Статус:</b> <?php if($reply['status'] != null): echo $reply['status']; ?><?php endif; ?>
                                 <?php if($reply['status'] == null): echo "Ожидает" ?></p><?php endif; ?>
+                                <?php if($reply['status'] == null): ?>
                                 <a style="text-align: center;" href="src/delete-reply.php?id=<?php echo $reply['id']; ?>">Отменить заявку</a>
+                                <?php endif; ?>
                             </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
