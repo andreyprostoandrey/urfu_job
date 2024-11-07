@@ -19,24 +19,24 @@ $user = current_user();
     <link rel="stylesheet" href="css/style.css">
     <title>Личный кабинет</title>
 </head>
-<body>
-    <h1>Добро пожаловать, <?php echo $user['username'] ?>!</h1>
+<body class="container">
+    <h1 style="text-align: center">Добро пожаловать, <?php echo $user['username'] ?>!</h1>
     <form class="card" action="src/buttons.php" method="post">
-        <label for="action">
-            <button class="container" type="submit" name="action" value="my-replies">Мои заявки</button>
+        <label class="container" for="action">
+            <button type="submit" name="action" value="my-replies">Мои заявки</button>
         </label>  
-        <label for="action">
-            <button class="container" type="submit" name="action" value="jobs">Смотреть вакансии</button>
+        <label class="container" for="action">
+            <button type="submit" name="action" value="jobs">Смотреть вакансии</button>
         </label>  
-        <label for="action">
-            <button class="container" type="submit" name="action" value="job-create">Создать вакансию</button>
+        <label class="container" for="action">
+            <button type="submit" name="action" value="job-create">Создать вакансию</button>
         </label>
-        <label for="action">
-            <button class="container" type="submit" name="action" value="logout">Выйти</button>
+        <label class="container" for="action">
+            <button type="submit" name="action" value="logout">Выйти</button>
         </label>
         <?php if ($user['id'] == 1): ?>
-            <label for="action">
-                <button class="container" type="submit" name="action" value="admin">Админ панель</button>
+            <label class="container" for="action">
+                <button type="submit" name="action" value="admin">Админ панель</button>
             </label>
         <?php endif; ?>
     </form>

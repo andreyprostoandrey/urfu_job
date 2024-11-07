@@ -33,7 +33,7 @@ require_once "src/page-transfer.php"
         <?php foreach ($current_jobs as $job): ?>
             <div class="job-card">
                 <?php $date = explode(" ", $job['created_at']);
-                $short_desc = substr($job['description'], 0, 52) . "...";?>
+                $short_desc = substr($job['description'], 0, 102) . "...";?>
                 <img src="<?php echo $job['image']?>">
                 <p class="title"><b><?php echo $job['title']; ?></b></p>
                 <p class="text"><b>Описание:</b> <?php echo $short_desc; ?></p>

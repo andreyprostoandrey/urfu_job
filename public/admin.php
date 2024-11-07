@@ -20,17 +20,17 @@ is_admin($user);
     <link rel="stylesheet" href="css/style.css">
     <title>Админ панель</title>
 </head>
-<body>
-    <h1>Добро пожаловать, <?php echo $user['username'] ?>!</h1>
+<body class="container">
+    <h1 style="text-align: center">Алмин панель</h1>
     <form class="card" action="src/buttons.php" method="post">
-        <label for="action">
-            <button class="container" type="submit" name="action" value="jobs-admin">Обработать вакансии</button>
+        <label class="container" for="action">
+            <button type="submit" name="action" value="jobs-admin">Обработать вакансии</button>
         </label>  
-        <label for="action">
-            <button class="container" type="submit" name="action" value="replies-admin">Обработать заявки</button>
+        <label class="container" for="action">
+            <button type="submit" name="action" value="replies-admin">Обработать заявки</button>
         </label>  
-        <label for="action">
-            <button class="container" type="submit" name="action" value="home">Личный кабинет</button>
+        <label class="container" for="action">
+            <button type="submit" name="action" value="home">Личный кабинет</button>
         </label>
     </form>
 </body>

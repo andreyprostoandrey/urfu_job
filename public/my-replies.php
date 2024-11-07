@@ -43,7 +43,7 @@ require_once "src/page-transfer.php"
     <link rel="stylesheet" href="css/style.css">
     <title>Мои заявки</title>
 </head>
-<body>
+<body class="container">
 <h1>Мои заявки</h1>
     <div>
         <?php foreach($replies as $reply):
@@ -70,14 +70,14 @@ require_once "src/page-transfer.php"
     </div>
     <?php require 'src/page-transfer2.php'; ?>
     <form class="card" action="src/buttons.php" method="post">
-        <label for="action">
-            <button class="container" type="submit" name="action" value="home">В личный кабинет</button>
+        <label class="container" for="action">
+            <button type="submit" name="action" value="home">В личный кабинет</button>
         </label>
-        <label for="action">
-            <button class="container" type="submit" name="action" value="jobs">Смотреть вакансии</button>
+        <label class="container" for="action">
+            <button type="submit" name="action" value="jobs">Смотреть вакансии</button>
         </label>
-        <label for="action">
-            <button class="container" type="submit" name="action" value="job-search">Поиск вакансий</button>
+        <label class="container" for="action">
+            <button type="submit" name="action" value="job-search">Поиск вакансий</button>
         </label>
     </form>
     </body>

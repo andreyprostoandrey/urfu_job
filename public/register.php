@@ -20,7 +20,7 @@ check_guest();
 </head>
 <body>
     <h1>Регистрация</h1>
-    <form action="src/register.php" method="POST">
+    <form class="card" action="src/register.php" method="POST">
         <label for="username">Имя пользователя:
             <input 
                 type="text" 

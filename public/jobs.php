@@ -18,7 +18,7 @@ require_once "src/page-transfer.php"
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link
         rel="stylesheet"
@@ -26,13 +26,13 @@ require_once "src/page-transfer.php"
     <link rel="stylesheet" href="css/style.css">
     <title>Список вакансий</title>
 </head>
-<body>
+<body class="container">
     <h1>Вакансии</h1>
     <div>
         <?php foreach ($current_jobs as $job): ?>
             <div class="job-card">
                 <?php $date = explode(" ", $job['created_at']);
-                $short_desc = substr($job['description'], 0, 52) . "...";?>
+                $short_desc = substr($job['description'], 0, 102) . "...";?>
                 <img src="<?php echo $job['image']?>">
                 <p class="title"><b><?php echo $job['title']; ?></b></p>
                 <p class="text"><b>Описание:</b> <?php echo $short_desc; ?></p>
@@ -46,14 +46,14 @@ require_once "src/page-transfer.php"
     </div>
     <?php require 'src/page-transfer2.php'; ?>
     <form class="card" action="src/buttons.php" method="post">
-        <label for="jobs">
-            <button class="container" type="submit" name="action" value="job-search">Поиск вакансий</button>
+        <label class="container" for="jobs">
+            <button type="submit" name="action" value="job-search">Поиск вакансий</button>
         </label>
-        <label for="jobs">
-            <button class="container" type="submit" name="action" value="job-create">Создать вакансию</button>
+        <label class="container" for="jobs">
+            <button type="submit" name="action" value="job-create">Создать вакансию</button>
         </label>
-        <label for="jobs">
-            <button class="container" type="submit" name="action" value="home">В личный кабинет</button>
+        <label class="container" for="jobs">
+            <button type="submit" name="action" value="home">В личный кабинет</button>
         </label>
     </form>
 </body>
